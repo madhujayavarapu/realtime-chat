@@ -1,0 +1,399 @@
+@import "./variables";
+@import "./core";
+@import "./spacing";
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+// ========= Sidebar ===========
+.sidebar {
+  width: 90%;
+  max-width: $sidebar-width;
+  height: 100vh;
+  box-shadow: 4px 0px 8px $box-shadow-color;
+  display: flex;
+  flex-flow: column;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 2px $box-shadow-color;
+    padding: 0.5rem;
+
+    &-brand {
+      font-size: 1.8em;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: map-get($map: $primary, $key: "color");
+    }
+
+    &-icon {
+      font-size: 1.5rem;
+      color: $secondary-color;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        color: map-get($map: $primary, $key: "color");
+      }
+    }
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    padding: 0.5em;
+
+    &-item {
+      padding: 0.5em;
+      font-size: 1.2em;
+      border-bottom: 3px solid transparent;
+      transition: .3s;
+
+      &:hover,
+      &.active {
+        border-bottom: 3px solid map-get($accent, "color");
+      }
+    }
+
+    &-filter {
+      flex: 1;
+      text-align: right;
+      font-size: 1.2em;
+
+      & svg:hover {
+        color: map-get($primary, "color");
+      }
+    }
+  }
+
+  &__conversations {
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75em;
+    box-shadow: 0px -4px 6px $box-shadow-color;
+
+    &-logout {
+      font-size: 1.3em;
+      color: $secondary-color;
+
+      &:hover {
+        color: map-get($map: $primary, $key: "color")
+      }
+    }
+
+    &-version {
+      font-size: 0.9em;
+      color: $secondary-color;
+    }
+  }
+}
+
+// ----------- Conversation -----------
+.conversation {
+  margin-top: 0.25em;
+  padding: 0.75em 0.5em;
+  display: flex;
+  border-bottom: $border;
+  cursor: pointer;
+
+  &__info {
+    width: $sidebar-width - 50px;
+
+    &-top {
+      display: grid;
+      grid-template-columns: 75% 25%;
+      column-gap: 2px;
+      margin-bottom: 0.5em;
+      margin-left: 0.35em;
+    }
+
+    &-name {
+      font-size: 1.1em;
+      color: #333;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    &-last-message-time {
+      align-self: center;
+      font-size: 0.8em;
+      color: $secondary-color;
+      padding-right: 0.25em;
+    }
+  }
+
+  &__last-message {
+    max-width: $sidebar-width - 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: 0.5rem;
+    color: $secondary-color;
+  }
+
+  &:hover {
+    background: #fafafa;
+  }
+
+  &.active {
+    background: map-get($map: $primary, $key: "color");
+    color: map-get($map: $primary, $key: "text-color");
+
+    .conversation__info {
+
+      &-name,
+      &-last-message-time {
+        color: #f1f1f1;
+      }
+    }
+
+    .conversation__last-message {
+      color: #f1f1f1;
+    }
+  }
+}
+
+// ============ End of Sidebar ==============
+
+
+// ============= Chat ============
+.chat {
+  flex: 1;
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 1em;
+    box-shadow: 0 1px 2px $box-shadow-color;
+  }
+
+  &__body {
+    display: flex;
+    flex: 1;
+    overflow: auto;
+  }
+
+  &__messages {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+
+    &-container {
+      flex: 1;
+      display: flex;
+      flex-flow: column;
+      padding: 1rem 1.5rem;
+      overflow: auto;
+
+      .message {
+        display: flex;
+        // flex-flow: column;
+        margin: 0.5rem 0;
+        max-width: 75%;
+
+        &__text {
+          background: #fff;
+          color: #212121;
+          padding: 0.75em;
+          margin-bottom: 0.15rem;
+          border-radius: 8px;
+          box-shadow: 1px 2px 6px $box-shadow-color;
+          align-self: flex-start;
+        }
+
+        &__avatar {
+          margin-right: 0.5rem;
+        }
+
+        &__main {
+          display: flex;
+          flex-flow: column;
+        }
+
+        &__meta {
+          display: flex;
+          // justify-content: space-between;
+          align-items: center;
+
+          &-name,
+          &-time {
+            font-size: 0.8em;
+            color: $secondary-color;
+          }
+
+          &-name {
+            &::after {
+              content: "|";
+              margin: 0 0.25rem;
+              align-self: center;
+            }
+          }
+
+          // &-time {
+          // }
+        }
+
+        &.align-left {
+          align-self: flex-start;
+        }
+
+        &.align-right {
+          align-self: flex-end;
+
+          .message__text {
+            background: map-get($primary, "color");
+            color: map-get($map: $primary, $key: "text-color");
+            align-self: flex-end;
+          }
+
+          .message__meta {
+            flex-flow: row-reverse;
+
+            &-time {
+              margin-left: 0.5em;
+            }
+          }
+        }
+      }
+
+      .notification {
+        align-self: center;
+        max-width: 75%;
+        text-align: center;
+        margin: 0.5em 0;
+        background: #607D8B;
+        padding: 0.25em 0.75em;
+        border-radius: 8px;
+        color: #fff
+      }
+    }
+
+    &-footer {
+      padding: 0.75rem;
+      display: flex;
+      box-shadow: -2px 0 4px $box-shadow-color;
+
+      .message-area {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+        border: $border;
+        margin: 0 0.25rem;
+        border-radius: 8px;
+        outline: none;
+        max-height: 4rem;
+        overflow: auto;
+
+        &__placeholder {
+          color: $secondary-color;
+        }
+
+        &__value {
+          color: $bg-color;
+        }
+      }
+
+      .btn--plus {
+        font-size: 1.5rem;
+        align-self: center;
+        margin-top: 0.25rem;
+        color: #757575;
+      }
+
+      .send-btn {
+        background: map-get($map: $primary, $key: "color");
+        color: map-get($map: $primary, $key: "text-color");
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        text-transform: uppercase
+      }
+    }
+  }
+
+
+  &__info {
+    width: $sidebar-width;
+    box-shadow: -2px 0 4px $box-shadow-color;
+  }
+}
+
+// ------------ Chat - Header ----------
+
+
+// ------------ Chat Messages ----------
+
+
+// -------------- Chat Sidepanel (Members) ---------------------
+.group {
+  &__meta {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: $border;
+  }
+
+  &__info {
+    margin-left: 0.5rem;
+
+    &-title {
+      font-size: 1.3rem;
+    }
+
+    &-created-on {
+      font-size: 0.8rem;
+      color: $secondary-color;
+    }
+  }
+
+  &__members {
+    display: flex;
+    flex-flow: column;
+
+    &-item {
+      display: flex;
+      align-items: center;
+
+      &-name {
+        font-weight: bold;
+
+        span {
+          &.online {
+            color: green;
+          }
+
+          &.offline {
+            color: red;
+          }
+        }
+      }
+    }
+  }
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.typing {
+  color: green;
+}

@@ -1,0 +1,22 @@
+@import "./variables";
+
+@mixin gen-spacing($prefix, $property) {
+  @for $i from 0 through $spacing-end-index {
+
+    @each $p-key,
+    $p-value in $positions {
+      #{$prefix}-#{$i} {
+        #{$property}: $spacing-difference * $i;
+      }
+
+      #{$prefix}#{$p-key}-#{$i} {
+        @each $v in $p-value {
+          #{$property}-#{$v}: $spacing-difference * $i;
+        }
+      }
+    }
+  }
+}
+
+@include gen-spacing('m', "margin");
+@include gen-spacing("p", "padding");
